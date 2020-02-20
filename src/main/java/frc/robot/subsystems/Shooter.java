@@ -19,6 +19,8 @@ public class Shooter extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   public Shooter() {
+    // These CAN IDs were only chosen to match the 2020 robot, they can be any thing
+    // that matches.
     m_top = new TalonSRX(8);
     m_bottom = new TalonSRX(9);
     m_conveyor = new TalonSRX(2);
@@ -44,6 +46,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void configureVelocityPID(double kp, double ki, double kd, double kf) {
+    // Each run of the command (while in tuning test mode) should reconfigure the 
+    // talon PID slots with the appropriate PID values.
     m_top.config_kI(0, kp);
     m_top.config_kI(0, ki);
     m_top.config_kD(0, kd);
