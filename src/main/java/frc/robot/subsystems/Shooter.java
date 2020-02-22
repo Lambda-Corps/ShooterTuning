@@ -14,21 +14,24 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
-  TalonSRX m_top, m_bottom, m_conveyor;
+  TalonSRX m_top, m_bottom, m_conveyor, m_longIntake, m_IndexerIntake;
   /**
    * Creates a new ExampleSubsystem.
    */
   public Shooter() {
     // These CAN IDs were only chosen to match the 2020 robot, they can be any thing
     // that matches.
-    m_top = new TalonSRX(8);
-    m_bottom = new TalonSRX(9);
+    m_top = new TalonSRX(9);
+    m_bottom = new TalonSRX(8);
     m_conveyor = new TalonSRX(2);
-
+    m_longIntake = new TalonSRX(11);
+    m_IndexerIntake = new TalonSRX(10);
     // set talons to factory deafault
     m_top.configFactoryDefault();
     m_bottom.configFactoryDefault();
     m_conveyor.configFactoryDefault();
+    m_IndexerIntake.configFactoryDefault();
+    m_longIntake.configFactoryDefault();
 
     // config top motor
     m_top.setInverted(false);
@@ -61,9 +64,20 @@ public class Shooter extends SubsystemBase {
   public void stopMotors() {
     m_top.set(ControlMode.PercentOutput, 0);
     m_conveyor.set(ControlMode.PercentOutput, 0);
+    m_IndexerIntake.set(ControlMode.PercentOutput, 0);
+    m_longIntake.set(ControlMode.PercentOutput, 0);
   }
 
   public void startConveyor(double speed) {
     m_conveyor.set(ControlMode.PercentOutput, speed);
   }
+
+  public void startIntake(double speed){
+    m_longIntake.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void startIndexer(double speed){
+    m_IndexerIntake.set(ControlMode.PercentOutput, speed);
+  }
+
 }

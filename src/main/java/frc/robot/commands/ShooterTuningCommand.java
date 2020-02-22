@@ -32,12 +32,12 @@ import frc.robot.subsystems.Shooter;
  * Dashboard as well for tuning.
  */
 public class ShooterTuningCommand extends CommandBase {
-  private double m_setpoint, m_tolerance, m_conveyorSpeed, m_conveyorDelay;
+  private double m_setpoint, m_tolerance, m_conveyorSpeed, m_conveyorDelay, m_Intake, m_Indexer, m_runTime;
   private Timer cmdTimer;
 
   private final Shooter m_shooter;
   private final ShuffleboardTab m_myTab;
-  private NetworkTableEntry m_kpEntry, m_kiEntry, m_kdEntry, m_kfEntry, m_spEntry,m_conveyorEntry, m_conveyorDelayEntry;
+  private NetworkTableEntry m_kpEntry, m_kiEntry, m_kdEntry, m_kfEntry, m_spEntry,m_conveyorEntry, m_conveyorDelayEntry, m_IntakeEntry, m_IndexerEntry, m_runTimeEntry;
   /**
    * Creates a new PIDTuningCommand.
    */
@@ -72,8 +72,11 @@ public class ShooterTuningCommand extends CommandBase {
 
     // Conveyor motor goes backward to get the balls where we want them.
     // Add in a conveyor delay method in case the shooter needs time to ramp up.
-    m_conveyorEntry = m_myTab.add("Conveyor Speed", -.75).withPosition(6, 0).getEntry();
-    m_conveyorDelayEntry = m_myTab.add("Conveyor Delay", 2).withPosition(7, 0).getEntry();
+    m_conveyorEntry = m_myTab.add("Conveyor Speed", -.75).withPosition(0, 1).getEntry();
+    m_conveyorDelayEntry = m_myTab.add("Conveyor Delay", 2).withPosition(1, 1).getEntry();
+    m_IntakeEntry = m_myTab.add("Intake Speed", 0).withPosition(2, 1).getEntry();
+    m_IndexerEntry = m_myTab.add("Indexer Speed", 0).withPosition(3, 1).getEntry();
+    m_runTimeEntry = m_myTab.add("runtime", 0).withPosition(4, 1).getEntry();
 
     m_shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -92,6 +95,9 @@ public class ShooterTuningCommand extends CommandBase {
     m_setpoint = m_spEntry.getDouble(0);
     m_conveyorSpeed = m_conveyorEntry.getDouble(0);
     m_conveyorDelay = m_conveyorDelayEntry.getDouble(2.0);
+    m_Intake = m_IntakeEntry.getDouble(0);
+    m_Indexer = m_IndexerEntry.getDouble(0);
+    m_runTime = m_runTimeEntry.getDouble(0);
 
     m_shooter.configureVelocityPID(kp, ki, kd, kf);
 
@@ -107,6 +113,8 @@ public class ShooterTuningCommand extends CommandBase {
     if( cmdTimer.get() >= m_conveyorDelay){
       // Turn on the conveyor motor after the delay has been meet.
       m_shooter.startConveyor(m_conveyorSpeed);
+      m_shooter.startIntake(m_Intake);
+      m_shooter.startIndexer(m_Indexer);
     }
     
   }
@@ -123,6 +131,6 @@ public class ShooterTuningCommand extends CommandBase {
   public boolean isFinished() {
     // This command ends after 10 seconds, adjust as needed but it's probably enough.
     // It can also just be canceled by clicking the button on Shuffleboard.
-    return cmdTimer.get() > 10.0;
+    return cmdTimer.get() > m_runTime;
   }
 }
