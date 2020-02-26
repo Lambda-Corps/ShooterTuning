@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,9 +24,9 @@ public class Shooter extends SubsystemBase {
     // that matches.
     m_top = new TalonSRX(9);
     m_bottom = new TalonSRX(8);
-    m_conveyor = new TalonSRX(2);
+    m_conveyor = new TalonSRX(10);
     m_longIntake = new TalonSRX(11);
-    m_IndexerIntake = new TalonSRX(10);
+    m_IndexerIntake = new TalonSRX(2);
     // set talons to factory deafault
     m_top.configFactoryDefault();
     m_bottom.configFactoryDefault();

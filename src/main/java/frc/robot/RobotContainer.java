@@ -9,7 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ShooterTuningCommand;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,7 +34,10 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    Shuffleboard.getTab("PID Tuning").add(new ShooterTuningCommand(m_shooter));
+    Shuffleboard.getTab("PID Tuning").add(new ShooterTuningCommand(m_shooter)).withWidget(BuiltInWidgets.kCommand);
+    
+    
+    
     // Configure the button bindings
     configureButtonBindings();
   }
